@@ -1,0 +1,3 @@
+
+EmailDownloadPage_Controller:
+  email_template: MyEmailTemplate
