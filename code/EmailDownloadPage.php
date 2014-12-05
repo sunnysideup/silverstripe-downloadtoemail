@@ -62,9 +62,11 @@ class EmailDownloadPage extends Page{
 		$fields->addFieldToTab("Root.DownloadToEmail", $allowReRequestField = new CheckboxField("AllowReRequest", "Allow the user to make more than one request for the file (not strictly enforced) - change and reload to see more options."));
 		if($this->AllowReRequest) {
 			$fields->addFieldToTab("Root.DownloadToEmail", $allowReRequestFieldLabel = new TextField("AllowReRequestLabel", "Label for requesting another copy."));
+			$fields->addFieldToTab("Root.DownloadToEmail", $declineReRequestFieldLabel = new ReadonlyField("DeclineReRequestLabel", "Explanation of why the user can not request another copy."));
 		}
 		else {
-			$fields->addFieldToTab("Root.DownloadToEmail", $allowReRequestFieldLabel = new TextField("DeclineReRequestLabel", "Explanation of why the user can not request another copy."));
+			$fields->addFieldToTab("Root.DownloadToEmail", $declineReRequestFieldLabel = new TextField("DeclineReRequestLabel", "Explanation of why the user can not request another copy."));
+			$fields->addFieldToTab("Root.DownloadToEmail", $allowReRequestFieldLabel = new ReadonlyField("AllowReRequestLabel", "Label for requesting another copy."));
 		}
 		$fields->addFieldToTab("Root.DownloadToEmail", $noaccessField = new TextField("NoAccessContent"));
 		$fields->addFieldToTab("Root.DownloadToEmail", $gridField = new GridField("EmailsSent", "Downloads Requested", EmailDownloadPage_Registration::get() ));
@@ -124,7 +126,7 @@ class EmailDownloadPage_Controller extends Page_Controller {
 	}
 
 	public function ReRequestLink(){
-		return $this->Link("rerequest");
+		return $this->Link("requestrerequest");
 	}
 
 	/**
