@@ -61,7 +61,7 @@ class EmailDownloadPage extends Page{
 		$fields->addFieldToTab("Root.DownloadToEmail", $thankYouForRequestingField = new TextField("ThankYouForRequesting"));
 		$fields->addFieldToTab("Root.DownloadToEmail", $allowReRequestField = new CheckboxField("AllowReRequest", "Allow the user to make more than one request for the file (not strictly enforced) - change and reload to see more options."));
 		if($this->AllowReRequest) {
-			$fields->addFieldToTab("Root.DownloadToEmail", $allowReRequestFieldLabel = new TextField("AllowedRequestLabel", "Label for requesting another copy."));
+			$fields->addFieldToTab("Root.DownloadToEmail", $allowReRequestFieldLabel = new TextField("AllowReRequestLabel", "Label for requesting another copy."));
 		}
 		else {
 			$fields->addFieldToTab("Root.DownloadToEmail", $allowReRequestFieldLabel = new TextField("DeclineReRequestLabel", "Explanation of why the user can not request another copy."));
@@ -271,6 +271,9 @@ class EmailDownloadPage_Controller extends Page_Controller {
 		if($this->AllowReRequest) {
 			Session::set($this->sessionVarNameForSending(), false);
 			Session::clear($this->sessionVarNameForSending());
+		}
+		else {
+			$this->redirect("noaccess");
 		}
 		return array();
 	}
