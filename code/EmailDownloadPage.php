@@ -273,6 +273,7 @@ class EmailDownloadPage_Controller extends Page_Controller {
 		if($this->AllowReRequest) {
 			Session::set($this->sessionVarNameForSending(), false);
 			Session::clear($this->sessionVarNameForSending());
+			$this->redirect($this->Link());
 		}
 		else {
 			$this->redirect("noaccess");
