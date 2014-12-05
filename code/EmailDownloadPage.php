@@ -212,6 +212,7 @@ class EmailDownloadPage_Controller extends Page_Controller {
 			$this->feedbackMessage = $this->ThankYouForRequesting;
 			$this->feedbackMessageStyle = "good";
 			$this->showDownloadForm = false;
+			$this->DeclineReRequestLabel = "";
 		}
 		else {
 			$this->feedbackMessage = "E-mail could not be sent.";
