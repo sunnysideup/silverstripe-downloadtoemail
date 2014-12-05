@@ -25,6 +25,9 @@ class EmailDownloadPage extends Page{
 		"EmailSubject" => "Varchar",
 		"NoAccessContent" => "Varchar(255)",
 		"ValidityInDays" => "Float",
+		"AllowReRequest" => "Boolean",
+		"AllowReRequestLabel" => "Varchar(255)",
+		"DeclineReRequestLabel" => "Varchar(255)",
 		"ThankYouForRequesting" => "Varchar(255)"
 	);
 
@@ -40,7 +43,10 @@ class EmailDownloadPage extends Page{
 	 */
 	private static $defaults = array(
 		"NoAccessContent" => "Sorry, you do not have access to this file right now.  Please request access again.",
-		"ThankYouForRequesting" => "Thank you for requesting this download, please check your e-mail for more information ..."
+		"ThankYouForRequesting" => "Thank you for requesting this download, please check your e-mail for more information ...",
+		"AllowReRequest" => true,
+		"AllowReRequestLabel" => "Request another copy.",
+		"DeclineReRequestLabel" => "You have already requested this file and you can not request it again."
 	);
 
 	/**
@@ -53,6 +59,13 @@ class EmailDownloadPage extends Page{
 		$fields->addFieldToTab("Root.DownloadToEmail", $uploadField = new NumericField("ValidityInDays", "Validity in days (you can use 0.5 for 12 hours, etc...)"));
 		$fields->addFieldToTab("Root.DownloadToEmail", $textField = new TextField("EmailSubject"));
 		$fields->addFieldToTab("Root.DownloadToEmail", $thankYouForRequestingField = new TextField("ThankYouForRequesting"));
+		$fields->addFieldToTab("Root.DownloadToEmail", $allowReRequestField = new CheckboxField("AllowReRequest", "Allow the user to make more than one request for the file (not strictly enforced) - change and reload to see more options."));
+		if($this->AllowReRequest) {
+			$fields->addFieldToTab("Root.DownloadToEmail", $allowReRequestFieldLabel = new TextField("AllowedRequestLabel", "Label for requesting another copy."));
+		}
+		else {
+			$fields->addFieldToTab("Root.DownloadToEmail", $allowReRequestFieldLabel = new TextField("DeclineReRequestLabel", "Explanation of why the user can not request another copy."));
+		}
 		$fields->addFieldToTab("Root.DownloadToEmail", $noaccessField = new TextField("NoAccessContent"));
 		$fields->addFieldToTab("Root.DownloadToEmail", $gridField = new GridField("EmailsSent", "Downloads Requested", EmailDownloadPage_Registration::get() ));
 		$gridField->getConfig()->addComponent(new GridFieldExportButton());
@@ -69,6 +82,7 @@ class EmailDownloadPage_Controller extends Page_Controller {
 		"DownloadForm",
 		"sendmail",
 		"dodownload",
+		"requestrerequest",
 		"noaccess"
 	);
 
@@ -102,9 +116,15 @@ class EmailDownloadPage_Controller extends Page_Controller {
 	 */
 	public function init(){
 		parent::init();
-		if(!Director::isDev()) {
-			$this->showDownloadForm = Session::get("EmailDownloadPage_Controller_".$this->ID."_Sent");
-		}
+		$this->showDownloadForm = $this->AlreadyRequestedSuccessfully() ? false : true;
+	}
+
+	public function AlreadyRequestedSuccessfully(){
+		return Session::get($this->sessionVarNameForSending());
+	}
+
+	public function ReRequestLink(){
+		return $this->Link("rerequest");
 	}
 
 	/**
@@ -185,7 +205,7 @@ class EmailDownloadPage_Controller extends Page_Controller {
 			)
 		);
 		$outcome = $email->send();
-		Session::set("EmailDownloadPage_Controller_".$this->ID."_Sent", $outcome);
+		Session::set($this->sessionVarNameForSending(), $outcome);
 		if($outcome) {
 			$this->feedbackMessage = $this->ThankYouForRequesting;
 			$this->feedbackMessageStyle = "good";
@@ -205,7 +225,7 @@ class EmailDownloadPage_Controller extends Page_Controller {
 	 * @param HTTPRequest
 	 */
 	function dodownload($request){
-		Session::set("EmailDownloadPage_Controller_".$this->ID."_Sent", false);
+		Session::set($this->sessionVarNameForSending(), true);
 		$id = intval($request->param("ID"));
 		$code = Convert::raw2sql($request->param("OtherID"));
 		if($id && $code) {
@@ -240,6 +260,18 @@ class EmailDownloadPage_Controller extends Page_Controller {
 	public function noaccess(){
 		$this->feedbackMessage = $this->NoAccessContent;
 		$this->feedbackMessageStyle = "warning";
+		return array();
+	}
+
+	/**
+	 *
+	 * What happens when the person does not have access.
+	 */
+	public function requestrerequest(){
+		if($this->AllowReRequest) {
+			Session::set($this->sessionVarNameForSending(), false);
+			Session::clear($this->sessionVarNameForSending());
+		}
 		return array();
 	}
 
@@ -289,6 +321,13 @@ class EmailDownloadPage_Controller extends Page_Controller {
 		die();
 	}
 
+	/**
+	 *
+	 * @return String
+	 */
+	protected function sessionVarNameForSending(){
+		return "EmailDownloadPage_Controller_".$this->ID."_Sent";
+	}
 
 }
 

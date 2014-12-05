@@ -8,4 +8,11 @@
 		$DownloadForm
 	</div>
 	<% end_if %>
+	<% if AlreadyRequestedSuccessfully %>
+		<% if AllowReRequest %>
+	<p class="message good"><a href="ReRequestLink">$AllowReRequestLabel</a></p>
+		<% else %>
+	<p class="message warning">$DeclineReRequestLabel</p>
+		<% end_if %>
+	<% end_if %>
 </div>
