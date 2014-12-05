@@ -199,7 +199,7 @@ class EmailDownloadPage_Controller extends Page_Controller {
 				array(
 					"EmailSubject" => DBField::create_field('Varchar', $this->EmailSubject),
 					"TitleOfFile" => DBField::create_field('Varchar', $this->TitleOfFile),
-					"ValidUntil" => date('Y-M-d', strtotime("+".($this->ValidityInDays * 86400)." minutes")),
+					"ValidUntil" => date('Y-M-d', strtotime("+".($this->ValidityInDays * 86400)." seconds")),
 					"File" => $this->DownloadFile(),
 					"DownloadLink" => Director::absoluteURL($this->Link("dodownload/".$obj->ID."/".$obj->Code.'/')),
 					"FileLocation" => Director::absoluteURL($this->DownloadFile()->Link())
@@ -244,7 +244,7 @@ class EmailDownloadPage_Controller extends Page_Controller {
 			if($obj) {
 				if($this->ValidityInDays) {
 					$tsNow = strtotime("NOW");
-					$validUntilTs = strtotime($obj->Created." +".(86400 * $this->ValidityInDays)." minutes");
+					$validUntilTs = strtotime($obj->Created." +".(86400 * $this->ValidityInDays)." seconds");
 					if($tsNow > $validUntilTs ) {
 						return $this->redirect($this->Link("noaccess"));
 					}
