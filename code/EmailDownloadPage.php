@@ -21,6 +21,7 @@ class EmailDownloadPage extends Page{
 	 * standard SS Variable
 	 */
 	private static $db = array(
+		"LinkToThirdPartyDownload" => "Varchar(255)",
 		"TitleOfFile" => "Varchar",
 		"EmailSubject" => "Varchar",
 		"NoAccessContent" => "Varchar(255)",
@@ -41,6 +42,13 @@ class EmailDownloadPage extends Page{
 	/**
 	 * standard SS Variable
 	 */
+	private static $has_many = array(
+		"EmailsSent" => "EmailDownloadPage_Registration"
+	);
+
+	/**
+	 * standard SS Variable
+	 */
 	private static $defaults = array(
 		"NoAccessContent" => "Sorry, you do not have access to this file right now.  Please request access again.",
 		"ThankYouForRequesting" => "Thank you for requesting this download, please check your e-mail for more information ...",
@@ -50,31 +58,77 @@ class EmailDownloadPage extends Page{
 	);
 
 	/**
+	 *
+	 * @param boolean $includerelations a boolean value to indicate if the labels returned include relation fields
+	 *
+	 */
+	public function fieldLabels($includerelations = true) {
+		$labels = parent::fieldLabels($includerelations);
+		$labels["TitleOfFile"] = _t("EmailDownloadPage.LINKTOTHIRDPARTYDOWNLOAD", "Link to third-party download file / page");
+		$labels["TitleOfFile"] = _t("EmailDownloadPage.TITLEOFFILE", "Title of file");
+		$labels["ValidityInDays"] = _t("EmailDownloadPage.VALIDITYINDAYS", "Validity in days (you can use 0.5 for 12 hours, etc...)");
+		$labels["DownloadFile"] = $labels["DownloadFileID"] = _t("EmailDownloadPage.DOWNLOADFILE", "Select file to download");
+		$labels["ThankYouForRequesting"] = _t("EmailDownloadPage.THANKYOUFORREQUESTING", "Thank you for requesting message");
+		$labels["EmailSubject"] = _t("EmailDownloadPage.EMAILSUBJECT", "E-mail Subject");
+		$labels["AllowReRequest"] = _t("EmailDownloadPage.ALLOWREREQUEST", "Allow the user to make more than one request for the file (not strictly enforced) - change and reload to see more options");
+		$labels["AllowReRequestLabel"] = _t("EmailDownloadPage.ALLOWREREQUESTLABEL", "Label for requesting another copy");
+		$labels["DeclineReRequestLabel"] = _t("EmailDownloadPage.DECLINEREREQUESTLABEL", "Explanation of why the user can not request another copy");
+		$labels["NoAccessContent"] = _t("EmailDownloadPage.NOACCESSCONTENT", "Content shown when the user does not have access");
+		$labels["EmailsSent"] = _t("EmailDownloadPage.EMAILSSENT", "Downloads requested");
+		return $labels;
+	}
+
+	/**
 	 * standard SS Method
 	 */
 	function getCMSFields(){
 		$fields = parent::getCMSFields();
-		$fields->addFieldToTab("Root.DownloadToEmail", $textField = new TextField("TitleOfFile"));
-		$fields->addFieldToTab("Root.DownloadToEmail", $uploadField = new UploadField("DownloadFile"));
-		$fields->addFieldToTab("Root.DownloadToEmail", $uploadField = new NumericField("ValidityInDays", "Validity in days (you can use 0.5 for 12 hours, etc...)"));
-		$fields->addFieldToTab("Root.DownloadToEmail", $textField = new TextField("EmailSubject"));
-		$fields->addFieldToTab("Root.DownloadToEmail", $thankYouForRequestingField = new TextField("ThankYouForRequesting"));
-		$fields->addFieldToTab("Root.DownloadToEmail", $allowReRequestField = new CheckboxField("AllowReRequest", "Allow the user to make more than one request for the file (not strictly enforced) - change and reload to see more options."));
-		if($this->AllowReRequest) {
-			$fields->addFieldToTab("Root.DownloadToEmail", $allowReRequestFieldLabel = new TextField("AllowReRequestLabel", "Label for requesting another copy."));
-			$fields->addFieldToTab("Root.DownloadToEmail", $declineReRequestFieldLabel = new ReadonlyField("DeclineReRequestLabel", "Explanation of why the user can not request another copy."));
+		$labels = $this->fieldLabels(true);
+		$fieldsToAdd = array(
+			new TextField("TitleOfFile", $labels["TitleOfFile"]),
+			$uploadField = new UploadField("DownloadFile", $labels["DownloadFile"])
+		);
+		if($this->DownloadFileID) {
+			$fieldsToAdd = array(
+				new NumericField("ValidityInDays", $label["ValidityInDays"])
+			);
 		}
 		else {
-			$fields->addFieldToTab("Root.DownloadToEmail", $declineReRequestFieldLabel = new TextField("DeclineReRequestLabel", "Explanation of why the user can not request another copy."));
-			$fields->addFieldToTab("Root.DownloadToEmail", $allowReRequestFieldLabel = new ReadonlyField("AllowReRequestLabel", "Label for requesting another copy."));
+			$fieldsToAdd = array(
+				$linkToThirdPartyDownloadField = new TextField("LinkToThirdPartyDownload", $labels["LinkToThirdPartyDownload"]),
+			);
+			$linkToThirdPartyDownloadField->setRightTitle( _t("EmailDownloadPage.LINKTOTHIRDPARTYDOWNLOAD_RIGHT_TITLE","Set this to a third-party website link (e.g. dropbox)"));
 		}
-		$fields->addFieldToTab("Root.DownloadToEmail", $noaccessField = new TextField("NoAccessContent"));
-		$fields->addFieldToTab("Root.DownloadToEmail", $gridField = new GridField("EmailsSent", "Downloads Requested", EmailDownloadPage_Registration::get() ));
+		$fieldsToAdd += array(
+			new CheckboxField("AllowReRequest", $labels["AllowReRequest"]),
+			new TextField("EmailSubject"),
+			new TextField("ThankYouForRequesting")
+		);
+
+		if($this->AllowReRequest) {
+			$fieldsToAdd += array
+				new TextField("AllowReRequestLabel", $labels["AllowReRequestLabel"]),
+			);
+		}
+		else {
+			$fieldsToAdd += array(
+				new TextField("DeclineReRequestLabel", $labels["DeclineReRequestLabel"]),
+			);
+		}
+		$fieldsToAdd += array(
+			new TextField("NoAccessContent", $labels["NoAccessContent"]),
+			$gridField = new GridField("EmailsSent", $labels["EmailsSent"], $this->EmailsSent() )
+		);
 		$gridField->getConfig()->addComponent(new GridFieldExportButton());
+		$fields->addFieldsToTab(
+			"Root.DownloadToEmail",
+			$fieldsToAdd
+		);
 		return $fields;
 	}
 
 }
+
 class EmailDownloadPage_Controller extends Page_Controller {
 
 	/**
@@ -200,6 +254,9 @@ class EmailDownloadPage_Controller extends Page_Controller {
 					"EmailSubject" => DBField::create_field('Varchar', $this->EmailSubject),
 					"TitleOfFile" => DBField::create_field('Varchar', $this->TitleOfFile),
 					"ValidUntil" => date('Y-M-d', strtotime("+".($this->ValidityInDays * 86400)." seconds")),
+					"HasLink" => $this->LinkToThirdPartyDownload ? true : false,
+					"HasFile" => $this->DownloadFileID ? true : false,
+					"LinkToThirdPartyDownload" => $this->LinkToThirdPartyDownload,
 					"File" => $this->DownloadFile(),
 					"DownloadLink" => Director::absoluteURL($this->Link("dodownload/".$obj->ID."/".$obj->Code.'/')),
 					"FileLocation" => Director::absoluteURL($this->DownloadFile()->Link())
@@ -336,101 +393,6 @@ class EmailDownloadPage_Controller extends Page_Controller {
 	 */
 	protected function sessionVarNameForSending(){
 		return "EmailDownloadPage_Controller_".$this->ID."_Sent";
-	}
-
-}
-
-/**
- *
- *
- */
-class EmailDownloadPage_Registration extends DataObject {
-
-	private static $db = array(
-		"Email" => "Varchar",
-		"Code" => "Varchar",
-		"Used" => "Boolean",
-		"DownloadTimes" => "Int"
-	);
-
-	private static $has_one = array(
-		"DownloadFile" => "File"
-	);
-
-	private static $casting = array(
-		"Title" => "Varchar",
-		"UsedNice" => "Varchar"
-	);
-
-	private static $summary_fields = array(
-		"Created" => "Sent",
-		"Email" => "Email",
-		"UsedNice" => "Has Been Used",
-		"DownloadTimes" => "Times Downloaded"
-	);
-
-	private static $searchable_fields = array(
-		"Email",
-		"UsedNice"
-	);
-
-	/**
-	 * standard SS method
-	 * @param Member $member
-	 * @return Boolean
-	 */
-	public function canCreate($member = null) {
-		return false;
-	}
-
-	/**
-	 * standard SS method
-	 * @param Member $member
-	 * @return Boolean
-	 */
-	public function canDelete($member = null) {
-		return false;
-	}
-
-	/**
-	 * standard SS method
-	 * @param Member $member
-	 * @return Boolean
-	 */
-	public function canEdit($member = null) {
-		return false;
-	}
-
-	/**
-	 * casted variable
-	 * @return String
-	 */
-	public function getTitle(){
-		return "Download for ".$this->Email;
-	}
-
-	/**
-	 * casted variable
-	 * @return String
-	 */
-	public function getUsedNice(){
-		return $this->dbObject('Used')->Nice();
-	}
-
-	/**
-	 * default sort
-	 * @var String
-	 */
-	private static $default_sort = "\"Created\" DESC";
-
-	/**
-	 * Automatically set Code
-	 */
-	function onBeforeWrite(){
-		parent::onBeforeWrite();
-		if(!$this->Code) {
-			$this->Code = md5(rand(0,10000));
-		}
 	}
 
 }

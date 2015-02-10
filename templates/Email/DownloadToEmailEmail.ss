@@ -11,14 +11,27 @@ Email Subject: $EmailSubject<br />
 
 Title of File: $TitleOfFile<br />
 
-Valid Until: $ValidUntil<br />
+<% if HasHasFile %>
 
-<% with File %>$Link<% end_with %><br />
+	Valid Until: $ValidUntil<br />
 
-Download Link: $DownloadLink<br />
+	<% with File %>$Link<% end_with %><br />
 
-File Location: $FileLocation
+	Download Link: $DownloadLink<br />
 
+	File Location: $FileLocation
+<% else %>
+	<% if HasLink %>
+
+	Place to download: $LinkToThirdPartyDownload
+
+	<% else %>
+
+	<p>ERROR: no download found...</p>
+
+	<% end_if %>
+
+<% end_if %>
 
 </body>
 
