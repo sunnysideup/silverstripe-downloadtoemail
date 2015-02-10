@@ -89,7 +89,7 @@ class EmailDownloadPage extends Page{
 			$uploadField = new UploadField("DownloadFile", $labels["DownloadFile"])
 		);
 		if($this->DownloadFileID) {
-			$fieldsToAdd = array(
+			$fieldsToAdd += array(
 				new NumericField("ValidityInDays", $label["ValidityInDays"])
 			);
 		}
@@ -97,7 +97,7 @@ class EmailDownloadPage extends Page{
 			$fieldsToAdd = array(
 				$linkToThirdPartyDownloadField = new TextField("LinkToThirdPartyDownload", $labels["LinkToThirdPartyDownload"]),
 			);
-			$linkToThirdPartyDownloadField->setRightTitle( _t("EmailDownloadPage.LINKTOTHIRDPARTYDOWNLOAD_RIGHT_TITLE","Set this to a third-party website link (e.g. dropbox)"));
+			$linkToThirdPartyDownloadField->setRightTitle( _t("EmailDownloadPage.LINKTOTHIRDPARTYDOWNLOAD_RIGHT_TITLE","Set this to a third-party website link (e.g. dropbox) - e.g. http://www.mycooldownloadpage.com/mydownloadpage/"));
 		}
 		$fieldsToAdd += array(
 			new CheckboxField("AllowReRequest", $labels["AllowReRequest"]),
@@ -106,7 +106,7 @@ class EmailDownloadPage extends Page{
 		);
 
 		if($this->AllowReRequest) {
-			$fieldsToAdd += array
+			$fieldsToAdd += array (
 				new TextField("AllowReRequestLabel", $labels["AllowReRequestLabel"]),
 			);
 		}
