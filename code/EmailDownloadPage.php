@@ -64,8 +64,8 @@ class EmailDownloadPage extends Page{
 	 */
 	public function fieldLabels($includerelations = true) {
 		$labels = parent::fieldLabels($includerelations);
-		$labels["TitleOfFile"] = _t("EmailDownloadPage.LINKTOTHIRDPARTYDOWNLOAD", "Link to third-party download file / page");
 		$labels["TitleOfFile"] = _t("EmailDownloadPage.TITLEOFFILE", "Title of file");
+		$labels["LinkToThirdPartyDownload"] = _t("EmailDownloadPage.LINKTOTHIRDPARTYDOWNLOAD", "Link to third-party download file / page");
 		$labels["ValidityInDays"] = _t("EmailDownloadPage.VALIDITYINDAYS", "Validity in days (you can use 0.5 for 12 hours, etc...)");
 		$labels["DownloadFile"] = $labels["DownloadFileID"] = _t("EmailDownloadPage.DOWNLOADFILE", "Select file to download");
 		$labels["ThankYouForRequesting"] = _t("EmailDownloadPage.THANKYOUFORREQUESTING", "Thank you for requesting message");
@@ -88,37 +88,38 @@ class EmailDownloadPage extends Page{
 			new TextField("TitleOfFile", $labels["TitleOfFile"]),
 			$uploadField = new UploadField("DownloadFile", $labels["DownloadFile"])
 		);
+
+
 		if($this->DownloadFileID) {
-			$fieldsToAdd += array(
+			$fieldsToAdd = array_merge($fieldsToAdd, array(
 				new NumericField("ValidityInDays", $label["ValidityInDays"])
-			);
+			));
 		}
 		else {
-			$fieldsToAdd = array(
-				$linkToThirdPartyDownloadField = new TextField("LinkToThirdPartyDownload", $labels["LinkToThirdPartyDownload"]),
-			);
+			$fieldsToAdd = array_merge($fieldsToAdd, array(
+				$linkToThirdPartyDownloadField = new TextField("LinkToThirdPartyDownload", $labels["LinkToThirdPartyDownload"])
+			));
 			$linkToThirdPartyDownloadField->setRightTitle( _t("EmailDownloadPage.LINKTOTHIRDPARTYDOWNLOAD_RIGHT_TITLE","Set this to a third-party website link (e.g. dropbox) - e.g. http://www.mycooldownloadpage.com/mydownloadpage/"));
 		}
-		$fieldsToAdd += array(
+		$fieldsToAdd = array_merge($fieldsToAdd, array(
 			new CheckboxField("AllowReRequest", $labels["AllowReRequest"]),
-			new TextField("EmailSubject"),
-			new TextField("ThankYouForRequesting")
-		);
-
+			new TextField("EmailSubject", $labels["EmailSubject"]),
+			new TextField("ThankYouForRequesting", $labels["ThankYouForRequesting"])
+		));
 		if($this->AllowReRequest) {
-			$fieldsToAdd += array (
+			$fieldsToAdd = array_merge($fieldsToAdd, array (
 				new TextField("AllowReRequestLabel", $labels["AllowReRequestLabel"]),
-			);
+			));
 		}
 		else {
-			$fieldsToAdd += array(
+			$fieldsToAdd = array_merge($fieldsToAdd, array(
 				new TextField("DeclineReRequestLabel", $labels["DeclineReRequestLabel"]),
-			);
+			));
 		}
-		$fieldsToAdd += array(
+		$fieldsToAdd = array_merge($fieldsToAdd, array(
 			new TextField("NoAccessContent", $labels["NoAccessContent"]),
 			$gridField = new GridField("EmailsSent", $labels["EmailsSent"], $this->EmailsSent() )
-		);
+		));
 		$gridField->getConfig()->addComponent(new GridFieldExportButton());
 		$fields->addFieldsToTab(
 			"Root.DownloadToEmail",
@@ -136,8 +137,8 @@ class EmailDownloadPage_Controller extends Page_Controller {
 	 */
 	private static $allowed_actions = array(
 		"DownloadForm",
-		"sendmail",
 		"dodownload",
+		"thankyou",
 		"requestrerequest",
 		"noaccess"
 	);
@@ -265,7 +266,20 @@ class EmailDownloadPage_Controller extends Page_Controller {
 		);
 		$outcome = $email->send();
 		Session::set($this->sessionVarNameForSending(), $outcome);
-		if($outcome) {
+		$this->redirect($this->Link("thankyou/".($outcome ? "success" : "fail")."/"));
+		return array();
+	}
+
+	/**
+	 * Do the download itself.
+	 * URL should be formatted as
+	 * /thankyou/outcome/
+	 *
+	 * @param HTTPRequest
+	 */
+	function thankyou($request){
+		$outcome = $request->param("ID");
+		if($outcome == "success") {
 			$this->feedbackMessage = $this->ThankYouForRequesting;
 			$this->feedbackMessageStyle = "good";
 			$this->showDownloadForm = false;
