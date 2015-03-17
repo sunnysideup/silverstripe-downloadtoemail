@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>phpDox - EmailDownloadPage_Controller</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css" media="screen"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  </head>
+  <body>
+    <nav class="topnav">
+      <ul>
+        <li>
+          <div class="logo"><span>/**</span>phpDox</div>
+        </li>
+        <li class="separator">
+          <a href="../index.xhtml">Overview</a>
+        </li>
+        <li class="separator">
+          <a href="../namespaces.xhtml">Namespaces</a>
+        </li>
+        <li>
+          <a href="../classes.xhtml">Classes</a>
+        </li>
+        <li class="separator">
+          <a href="../source/index.xhtml">Source</a>
+        </li>
+      </ul>
+    </nav>
+    <div id="mainstage">
+      <div class="box">
+        <ul class="breadcrumb">
+          <li>
+            <a href="../index.xhtml">Overview</a>
+          </li>
+          <li class="separator">
+            <a href="../classes.xhtml">Classes</a>
+          </li>
+          <li class="separator">EmailDownloadPage_Controller</li>
+        </ul>
+      </div>
+      <nav class="box">
+        <ul>
+          <li>
+            <a href="#introduction">Introduction</a>
+          </li>
+          <li>
+            <a href="#synopsis">Synopsis</a>
+          </li>
+          <li>
+            <a href="#hierarchy">Hierarchy</a>
+          </li>
+          <li>
+            <a href="#members">Members</a>
+          </li>
+          <li>
+            <a href="#methods">Methods</a>
+          </li>
+          <li>
+            <a href="../source/code/EmailDownloadPage.php.xhtml#line133">Source</a>
+          </li>
+        </ul>
+      </nav>
+      <section>
+        <h1 id="introduction"><small>\</small>EmailDownloadPage_Controller</h1>
+        <h4/>
+        <p/>
+        <h2 id="synopsis">Synopsis</h2>
+        <div class="synopsis">class EmailDownloadPage_Controller
+                extends <a title="Page_Controller" href="../classes/Page_Controller.xhtml">Page_Controller</a>
+            {<br/><ul class="none"><li>// members</li><li>private array <a href="#members">$allowed_actions</a>;
+                    </li><li>private <span title="String">String</span> <a href="#members">$email_template</a>;
+                    </li><li>protected <span title="Boolean">Boolean</span> <a href="#members">$showDownloadForm</a>;
+                    </li><li>protected <span title="String">String</span> <a href="#members">$feedbackMessage</a>;
+                    </li><li>protected <span title="String">String</span> <a href="#members">$feedbackMessageStyle</a>;
+                    </li><li>private integer <a href="#members">$min_download_bandwidth</a>;
+                    </li></ul><ul class="none"><li>// methods</li><li>public void <a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/init.xhtml">init</a>()
+                    </li><li>public void <a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/AlreadyRequestedSuccessfully.xhtml">AlreadyRequestedSuccessfully</a>()
+                    </li><li>public void <a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/ReRequestLink.xhtml">ReRequestLink</a>()
+                    </li><li>public Varchar <a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/ShowDownloadForm.xhtml">ShowDownloadForm</a>()
+                    </li><li>public Varchar <a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/FeedbackMessage.xhtml">FeedbackMessage</a>()
+                    </li><li>public Varchar <a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/FeedbackMessageStyle.xhtml">FeedbackMessageStyle</a>()
+                    </li><li>public Form <a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/DownloadForm.xhtml">DownloadForm</a>()
+                    </li><li>public void <a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/sendmail.xhtml">sendmail</a>()
+                    </li><li>public void <a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/thankyou.xhtml">thankyou</a>()
+                    </li><li>public void <a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/dodownload.xhtml">dodownload</a>()
+                    </li><li>public void <a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/noaccess.xhtml">noaccess</a>()
+                    </li><li>public void <a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/requestrerequest.xhtml">requestrerequest</a>()
+                    </li><li>protected void <a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/sendFile.xhtml">sendFile</a>()
+                    </li><li>protected String <a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/sessionVarNameForSending.xhtml">sessionVarNameForSending</a>()
+                    </li></ul>
+
+            }<br/></div>
+        <h2 id="hierarchy">Hierarchy</h2>
+        <div class="styled">
+          <h4>Extends</h4>
+          <ul>
+            <li>
+              <a href="../classes/Page_Controller.xhtml">Page_Controller</a>
+            </li>
+          </ul>
+        </div>
+        <h2 id="members">Members</h2>
+        <div class="styled members">
+          <h4>private</h4>
+          <ul class="members">
+            <li id="allowed_actions">
+              <strong>$allowed_actions</strong>
+              <br/>
+              <span class="indent">standard SS Variable</span>
+            </li>
+            <li id="email_template"><strong>$email_template</strong>
+                —
+                <a href="#">String</a><br/><span class="indent">Template to be used for sending e-mail.</span></li>
+            <li id="min_download_bandwidth">
+              <strong>$min_download_bandwidth</strong>
+            </li>
+          </ul>
+          <h4>protected</h4>
+          <ul class="members">
+            <li id="feedbackMessage"><strong>$feedbackMessage</strong>
+                —
+                <a href="#">String</a><br/><span class="indent">Message to user (e.g. you do not have access to this file)</span></li>
+            <li id="feedbackMessageStyle"><strong>$feedbackMessageStyle</strong>
+                —
+                <a href="#">String</a><br/><span class="indent">Type of feedback (Good | Bad | Warning)</span></li>
+            <li id="showDownloadForm"><strong>$showDownloadForm</strong>
+                —
+                <a href="#">Boolean</a><br/><span class="indent">Show the download form?</span></li>
+          </ul>
+        </div>
+        <h2 id="methods">Methods</h2>
+        <div class="styled">
+          <h4>protected</h4>
+          <ul>
+            <li id="sendFile"><a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/sendFile.xhtml">sendFile()</a>
+                — COPIED CODE!!!!!</li>
+            <li id="sessionVarNameForSending">
+              <a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/sessionVarNameForSending.xhtml">sessionVarNameForSending()</a>
+            </li>
+          </ul>
+          <h4>public</h4>
+          <ul>
+            <li id="AlreadyRequestedSuccessfully">
+              <a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/AlreadyRequestedSuccessfully.xhtml">AlreadyRequestedSuccessfully()</a>
+            </li>
+            <li id="DownloadForm"><a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/DownloadForm.xhtml">DownloadForm()</a>
+                — show the download form.</li>
+            <li id="FeedbackMessage"><a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/FeedbackMessage.xhtml">FeedbackMessage()</a>
+                — feedback message for user</li>
+            <li id="FeedbackMessageStyle"><a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/FeedbackMessageStyle.xhtml">FeedbackMessageStyle()</a>
+                — feedback message for user</li>
+            <li id="ReRequestLink">
+              <a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/ReRequestLink.xhtml">ReRequestLink()</a>
+            </li>
+            <li id="ShowDownloadForm"><a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/ShowDownloadForm.xhtml">ShowDownloadForm()</a>
+                — feedback message for user</li>
+            <li id="dodownload"><a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/dodownload.xhtml">dodownload()</a>
+                — Do the download itself.</li>
+            <li id="init"><a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/init.xhtml">init()</a>
+                — Standard SS method</li>
+            <li id="noaccess"><a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/noaccess.xhtml">noaccess()</a>
+                — What happens when the person does not have access.</li>
+            <li id="requestrerequest"><a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/requestrerequest.xhtml">requestrerequest()</a>
+                — What happens when the person does not have access.</li>
+            <li id="sendmail"><a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/sendmail.xhtml">sendmail()</a>
+                — Sent the e-mail.</li>
+            <li id="thankyou"><a title="EmailDownloadPage_Controller" href="../classes/EmailDownloadPage_Controller/thankyou.xhtml">thankyou()</a>
+                — Do the download itself.</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+    <footer>
+      <span/>
+    </footer>
+  </body>
+</html>

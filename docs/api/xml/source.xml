@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<source xmlns="http://xml.phpdox.net/src">
+  <dir name="/var/www/_modules/downloadtoemail/trunk">
+    <file name="_config.php" size="9" time="2015-03-14T10:23:25+13:00" unixtime="1426281805" sha1="9fac1e47758ea155ad93d89d81055b5043e00424" xml="tokens/_config.php.xml"/>
+    <dir name="code">
+      <file name="EmailDownloadPage.php" size="12810" time="2015-03-14T10:23:25+13:00" unixtime="1426281805" sha1="a3bedbf71858badaa9b5c51e5cb185d3f1750c9c" xml="tokens/code/EmailDownloadPage.php.xml"/>
+      <dir name="model">
+        <file name="EmailDownloadPage_Registration.php" size="1601" time="2015-03-14T10:23:25+13:00" unixtime="1426281805" sha1="98271467d2732a7f6cf86c7fdfb98700276f2fd8" xml="tokens/code/model/EmailDownloadPage_Registration.php.xml"/>
+      </dir>
+    </dir>
+  </dir>
+</source>

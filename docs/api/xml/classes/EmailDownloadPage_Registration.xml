@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class xmlns="http://xml.phpdox.net/src" full="EmailDownloadPage_Registration" namespace="" name="EmailDownloadPage_Registration" abstract="false" final="false" start="8" end="98">
+  <file path="/var/www/_modules/downloadtoemail/trunk/docs/en/phpdox/../../../code/model" file="EmailDownloadPage_Registration.php" realpath="/var/www/_modules/downloadtoemail/trunk/code/model/EmailDownloadPage_Registration.php" size="1601" time="2015-03-14T10:23:25+13:00" unixtime="1426281805" sha1="98271467d2732a7f6cf86c7fdfb98700276f2fd8" relative="code/model/EmailDownloadPage_Registration.php"/>
+  <docblock>
+    <description compact="record of all the"/>
+  </docblock>
+  <extends full="DataObject" namespace="" name="DataObject"/>
+  <member name="db" type="array" visibility="private" line="10"/>
+  <member name="has_one" type="array" visibility="private" line="17"/>
+  <member name="casting" type="array" visibility="private" line="22"/>
+  <member name="summary_fields" type="array" visibility="private" line="27"/>
+  <member name="searchable_fields" type="array" visibility="private" line="34"/>
+  <method name="canCreate" start="44" end="46" abstract="false" final="false" static="false" visibility="public">
+    <docblock>
+      <description compact="standard SS method"/>
+      <param type="object" variable="$member">
+        <type full="Member" namespace="" name="Member"/>
+      </param>
+      <return type="object">
+        <type full="Boolean" namespace="" name="Boolean"/>
+      </return>
+    </docblock>
+    <parameter name="member" byreference="false" type="{unknown}" default="null"/>
+  </method>
+  <method name="canDelete" start="53" end="55" abstract="false" final="false" static="false" visibility="public">
+    <docblock>
+      <description compact="standard SS method"/>
+      <param type="object" variable="$member">
+        <type full="Member" namespace="" name="Member"/>
+      </param>
+      <return type="object">
+        <type full="Boolean" namespace="" name="Boolean"/>
+      </return>
+    </docblock>
+    <parameter name="member" byreference="false" type="{unknown}" default="null"/>
+  </method>
+  <method name="canEdit" start="62" end="64" abstract="false" final="false" static="false" visibility="public">
+    <docblock>
+      <description compact="standard SS method"/>
+      <param type="object" variable="$member">
+        <type full="Member" namespace="" name="Member"/>
+      </param>
+      <return type="object">
+        <type full="Boolean" namespace="" name="Boolean"/>
+      </return>
+    </docblock>
+    <parameter name="member" byreference="false" type="{unknown}" default="null"/>
+  </method>
+  <method name="getTitle" start="70" end="72" abstract="false" final="false" static="false" visibility="public">
+    <docblock>
+      <description compact="casted variable"/>
+      <return type="object">
+        <type full="String" namespace="" name="String"/>
+      </return>
+    </docblock>
+  </method>
+  <method name="getUsedNice" start="78" end="80" abstract="false" final="false" static="false" visibility="public">
+    <docblock>
+      <description compact="casted variable"/>
+      <return type="object">
+        <type full="String" namespace="" name="String"/>
+      </return>
+    </docblock>
+  </method>
+  <member name="default_sort" type="string" default="&quot;\&quot;Created\&quot; DESC&quot;" visibility="private" line="86">
+    <docblock>
+      <description compact="default sort"/>
+      <var type="object">
+        <type full="String" namespace="" name="String"/>
+      </var>
+    </docblock>
+  </member>
+  <method name="onBeforeWrite" start="91" end="96" abstract="false" final="false" static="false" visibility="public">
+    <docblock>
+      <description compact="Automatically set Code"/>
+    </docblock>
+  </method>
+</class>
