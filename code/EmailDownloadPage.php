@@ -222,7 +222,7 @@ class EmailDownloadPage_Controller extends Page_Controller {
 		$form = new Form(
 			$this,
 			'DownloadForm',
-			new FieldList($emailField = new EmailField('Email')),
+			new FieldList($emailField = new EmailField('EmailDownloadPageEmail')),
 			new FieldList(new FormAction('sendmail', $this->TitleOfFile))
 		);
 		$emailField->setAttribute("placeholder", "Your E-mail");
@@ -249,7 +249,7 @@ class EmailDownloadPage_Controller extends Page_Controller {
 			$obj->Used = false;
 		}
 		$obj->write();
-		$email = new Email(Email::getAdminEmail(), $data["Email"], $this->EmailSubject);
+		$email = new Email(Email::getAdminEmail(), $data["EmailDownloadPage"], $this->EmailSubject);
 		$email->setTemplate($this->config()->email_template);
 		// You can call this multiple times or bundle everything into an array, including DataSetObjects
 		$email->populateTemplate(
