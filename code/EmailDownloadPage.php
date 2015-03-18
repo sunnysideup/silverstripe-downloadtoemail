@@ -236,7 +236,7 @@ class EmailDownloadPage_Controller extends Page_Controller {
 	 * @param Form $form
 	 */
 	function sendmail($data, $form) {
-		$email = Convert::raw2sql($data["Email"]);
+		$email = Convert::raw2sql($data["EmailDownloadPageEmail"]);
 		$obj = EmailDownloadPage_Registration::get()
 			->filter(array("Email" => $email, "DownloadFileID" => $this->DownloadFileID))
 			->first();
