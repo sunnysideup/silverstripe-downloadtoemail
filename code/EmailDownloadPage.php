@@ -29,7 +29,8 @@ class EmailDownloadPage extends Page{
 		"AllowReRequest" => "Boolean",
 		"AllowReRequestLabel" => "Varchar(255)",
 		"DeclineReRequestLabel" => "Varchar(255)",
-		"ThankYouForRequesting" => "Varchar(255)"
+		"ThankYouForRequesting" => "Varchar(255)",
+		"ThankYouLink" => "Varchar(255)"
 	);
 
 	/**
@@ -69,6 +70,7 @@ class EmailDownloadPage extends Page{
 		$labels["ValidityInDays"] = _t("EmailDownloadPage.VALIDITYINDAYS", "Validity in days (you can use 0.5 for 12 hours, etc...)");
 		$labels["DownloadFile"] = $labels["DownloadFileID"] = _t("EmailDownloadPage.DOWNLOADFILE", "Select file to download");
 		$labels["ThankYouForRequesting"] = _t("EmailDownloadPage.THANKYOUFORREQUESTING", "Thank you for requesting message");
+		$labels["ThankYouLink"] = _t("EmailDownloadPage.THANKYOULINK", "Thank you link");
 		$labels["EmailSubject"] = _t("EmailDownloadPage.EMAILSUBJECT", "E-mail Subject");
 		$labels["AllowReRequest"] = _t("EmailDownloadPage.ALLOWREREQUEST", "Allow the user to make more than one request for the file (not strictly enforced) - change and reload to see more options");
 		$labels["AllowReRequestLabel"] = _t("EmailDownloadPage.ALLOWREREQUESTLABEL", "Label for requesting another copy");
@@ -104,7 +106,8 @@ class EmailDownloadPage extends Page{
 		$fieldsToAdd = array_merge($fieldsToAdd, array(
 			new CheckboxField("AllowReRequest", $labels["AllowReRequest"]),
 			new TextField("EmailSubject", $labels["EmailSubject"]),
-			new TextField("ThankYouForRequesting", $labels["ThankYouForRequesting"])
+			new TextField("ThankYouForRequesting", $labels["ThankYouForRequesting"]),
+			new TextField("ThankYouLink", $labels["ThankYouLink"])
 		));
 		if($this->AllowReRequest) {
 			$fieldsToAdd = array_merge($fieldsToAdd, array (
