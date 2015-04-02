@@ -121,7 +121,7 @@ class EmailDownloadPage extends Page{
 		}
 		$fieldsToAdd = array_merge($fieldsToAdd, array(
 			new TextField("NoAccessContent", $labels["NoAccessContent"]),
-			$gridField = new GridField("EmailsSent", $labels["EmailsSent"], $this->EmailsSent() )
+			$gridField = new GridField("EmailsSent", $labels["EmailsSent"], $this->EmailsSent(), GridFieldConfig_RelationEditor::create())
 		));
 		$gridField->getConfig()->addComponent(new GridFieldExportButton());
 		$fields->addFieldsToTab(
@@ -179,8 +179,13 @@ class EmailDownloadPage_Controller extends Page_Controller {
 		$this->showDownloadForm = $this->AlreadyRequestedSuccessfully() ? false : true;
 	}
 
+
+	/**
+	 *
+	 * @return Boolean
+	 */
 	public function AlreadyRequestedSuccessfully(){
-		return Session::get($this->sessionVarNameForSending());
+		return Session::get($this->sessionVarNameForSending()) ? true : false;
 	}
 
 	public function ReRequestLink(){
@@ -225,7 +230,7 @@ class EmailDownloadPage_Controller extends Page_Controller {
 			new FieldList($emailField = new EmailField('EmailDownloadPageEmail')),
 			new FieldList(new FormAction('sendmail', $this->TitleOfFile))
 		);
-		$emailField->setAttribute("placeholder", "Your E-mail");
+		$emailField->setAttribute("placeholder", _t("EmailDownloadPage.YOUR_EMAIL"."Your E-mail"));
 		return $form;
 	}
 
@@ -250,7 +255,7 @@ class EmailDownloadPage_Controller extends Page_Controller {
 		}
 		$obj->write();
 		$email = new Email(Email::getAdminEmail(), $data["EmailDownloadPage"], $this->EmailSubject);
-		$email->setTemplate($this->config()->email_template);
+		$email->setTemplate($this->config()->get("email_template"));
 		// You can call this multiple times or bundle everything into an array, including DataSetObjects
 		$email->populateTemplate(
 			new ArrayData(
