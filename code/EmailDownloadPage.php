@@ -229,7 +229,7 @@ class EmailDownloadPage_Controller extends Page_Controller {
 			'DownloadForm',
 			new FieldList($emailField = new EmailField('EmailDownloadPageEmail', _t("EmailDownloadPage.EMAIL", "enter your e-mail address"))),
 			new FieldList(new FormAction('sendmail', _t("EmailDownloadPage.REQUEST_ACCESS", "request access"))),
-			RequiredFields::create(array("EmailField"))
+			RequiredFields::create(array("EmailDownloadPageEmail"))
 		);
 		return $form;
 	}
