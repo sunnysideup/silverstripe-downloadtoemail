@@ -227,7 +227,7 @@ class EmailDownloadPage_Controller extends Page_Controller {
 		$form = new Form(
 			$this,
 			'DownloadForm',
-			new FieldList($emailField = new EmailField('EmailDownloadPageEmail', _t("EmailDownloadPage.EMAIL", "your e-mail"))),
+			new FieldList($emailField = new EmailField('EmailDownloadPageEmail', _t("EmailDownloadPage.EMAIL", "your e-mail address"))),
 			new FieldList(new FormAction('sendmail', $this->TitleOfFile))
 		);
 		$emailField->setAttribute("placeholder", _t("EmailDownloadPage.YOUR_EMAIL"."Your E-mail"));
