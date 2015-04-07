@@ -22,8 +22,8 @@ class EmailDownloadPage extends Page{
 	 */
 	private static $db = array(
 		"LinkToThirdPartyDownload" => "Varchar(255)",
-		"TitleOfFile" => "Varchar",
-		"EmailSubject" => "Varchar",
+		"TitleOfFile" => "Varchar(50)",
+		"EmailSubject" => "Varchar(200)",
 		"NoAccessContent" => "Varchar(255)",
 		"ValidityInDays" => "Float",
 		"AllowReRequest" => "Boolean",
@@ -227,10 +227,10 @@ class EmailDownloadPage_Controller extends Page_Controller {
 		$form = new Form(
 			$this,
 			'DownloadForm',
-			new FieldList($emailField = new EmailField('EmailDownloadPageEmail', _t("EmailDownloadPage.EMAIL", "your e-mail address"))),
-			new FieldList(new FormAction('sendmail', $this->TitleOfFile))
+			new FieldList($emailField = new EmailField('EmailDownloadPageEmail', _t("EmailDownloadPage.EMAIL", "enter your e-mail address"))),
+			new FieldList(new FormAction('sendmail', _t("EmailDownloadPage.REQUEST_ACCESS", "request access"))),
+			RequiredFields::create(array("EmailField"))
 		);
-		$emailField->setAttribute("placeholder", _t("EmailDownloadPage.YOUR_EMAIL"."Your E-mail"));
 		return $form;
 	}
 
