@@ -30,7 +30,8 @@ class EmailDownloadPage extends Page{
 		"AllowReRequestLabel" => "Varchar(255)",
 		"DeclineReRequestLabel" => "Varchar(255)",
 		"ThankYouForRequesting" => "Varchar(255)",
-		"ThankYouLink" => "Varchar(255)"
+		"ThankYouLink" => "Varchar(255)",
+		"CopyOfAllEmailsToAdmin" => "Boolean"
 	);
 
 	/**
@@ -77,6 +78,7 @@ class EmailDownloadPage extends Page{
 		$labels["DeclineReRequestLabel"] = _t("EmailDownloadPage.DECLINEREREQUESTLABEL", "Explanation of why the user can not request another copy");
 		$labels["NoAccessContent"] = _t("EmailDownloadPage.NOACCESSCONTENT", "Content shown when the user does not have access");
 		$labels["EmailsSent"] = _t("EmailDownloadPage.EMAILSSENT", "Downloads requested");
+		$labels["CopyOfAllEmailsToAdmin"] = _t("EmailDownloadPage.COPYOFALLEMAILSTOADMIN", "Send a copy of all e-mails to the website administrator ");
 		return $labels;
 	}
 
@@ -106,6 +108,7 @@ class EmailDownloadPage extends Page{
 		$fieldsToAdd = array_merge($fieldsToAdd, array(
 			new CheckboxField("AllowReRequest", $labels["AllowReRequest"]),
 			new TextField("EmailSubject", $labels["EmailSubject"]),
+			new CheckboxField("CopyOfAllEmailsToAdmin", $labels["CopyOfAllEmailsToAdmin"]." (".Email::getAdminEmail().")"),
 			new TextField("ThankYouForRequesting", $labels["ThankYouForRequesting"]),
 			new TextField("ThankYouLink", $labels["ThankYouLink"])
 		));
@@ -254,7 +257,14 @@ class EmailDownloadPage_Controller extends Page_Controller {
 			$obj->Used = false;
 		}
 		$obj->write();
-		$email = new Email(Email::getAdminEmail(), $data["EmailDownloadPageEmail"], $this->EmailSubject);
+		$adminEmail = Email::getAdminEmail();
+		if(!$adminEmail) {
+			user_error("You need to set an admin email in order to use this page", E_USER_NOTICE);
+		}
+		$email = new Email($adminEmail, $data["EmailDownloadPageEmail"], $this->EmailSubject);
+		if($this->CopyOfAllEmailsToAdmin) {
+			$email->setBcc($adminEmail);
+		}
 		$email->setTemplate($this->config()->get("email_template"));
 		// You can call this multiple times or bundle everything into an array, including DataSetObjects
 		$email->populateTemplate(
