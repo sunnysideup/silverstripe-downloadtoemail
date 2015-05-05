@@ -369,7 +369,7 @@ class EmailDownloadPage_Controller extends Page_Controller {
 			$this->redirect($this->Link());
 		}
 		else {
-			$this->redirect("noaccess");
+			$this->redirect($this->Link("noaccess"));
 		}
 		return array();
 	}
