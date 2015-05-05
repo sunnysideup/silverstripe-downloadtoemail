@@ -27,7 +27,7 @@ class EmailDownloadPage_Registration extends DataObject {
 	private static $summary_fields = array(
 		"Created" => "Sent",
 		"Email" => "Email",
-		"UsedNice" => "Has Been Used",
+		"UsedNice" => "Download Link Has Been Used",
 		"DownloadTimes" => "Times Downloaded"
 	);
 

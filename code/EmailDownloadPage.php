@@ -256,6 +256,7 @@ class EmailDownloadPage_Controller extends Page_Controller {
 		else {
 			$obj->Used = false;
 		}
+		$obj->EmailDownloadPageID = $this->ID;
 		$obj->write();
 		$adminEmail = Email::getAdminEmail();
 		if(!$adminEmail) {
