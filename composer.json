@@ -1,26 +1,32 @@
 {
-	"name": "sunnysideup/downloadtoemail",
-	"type": "silverstripe-module",
-	"description": "Create a link on your site that allows the user to  download a file via their e-mail (the user gets a link to the file sent to their email rather than allowing a direct download).",
-	"homepage": "https://github.com/sunnysideup/silverstripe-downloadtoemail",
-	"keywords": ["download", "confirm", "email", "file security", "collect emails", "newsletter", "security"],
-	"license": "Sunny Side Up (BSD-3-Clause and CUSTOM)",
-	"authors":[
-		{
-			"name": "Nicolaas Francken",
-			"homepage": "https://github.com/sunnysideup",
-			"email" : "modules@sunnysideup.co.nz",
-			"role" : "lead developer"
-		}
-	],
-	"require":{
-		"silverstripe/framework": "~3.1",
-		"silverstripe/cms": "~3.1"
-	},
-	"suggest": {
-		"silverstripe/secureassets": "Makes module more secure by protecting files in assets foldres."
-	},
-	"extra": {
-		"installer-name": "downloadtoemail"
-	}
+    "name": "sunnysideup/downloadtoemail",
+    "type": "silverstripe-module",
+    "description": "Create a link on your site that allows the user to  download a file via their e-mail (the user gets a link to the file sent to their email rather than allowing a direct download).",
+    "keywords": [
+        "download",
+        "confirm",
+        "email",
+        "file security",
+        "collect emails",
+        "newsletter",
+        "security"
+    ],
+    "license": "Sunny Side Up (BSD-3-Clause and CUSTOM)",
+    "authors": [
+        {
+            "name": "Nicolaas Francken",
+            "email": "modules@sunnysideup.co.nz",
+            "role": "lead developer"
+        }
+    ],
+    "require": {
+        "silverstripe/framework": "~3.1",
+        "silverstripe/cms": "~3.1"
+    },
+    "suggest": {
+        "silverstripe/secureassets": "Makes module more secure by protecting files in assets foldres."
+    },
+    "extra": {
+        "installer-name": "downloadtoemail"
+    }
 }
