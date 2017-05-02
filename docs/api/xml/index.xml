@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<index xmlns="http://xml.phpdox.net/src" basedir="/var/www/_modules/downloadtoemail/trunk">
-  <namespace name="">
-    <class name="EmailDownloadPage" src="code/EmailDownloadPage.php" description="Page for Email Download Easiest changed by extending this page and using the hide_ancestor static to hide this page itself." xml="classes/EmailDownloadPage.xml"/>
-    <class name="EmailDownloadPage_Controller" src="code/EmailDownloadPage.php" xml="classes/EmailDownloadPage_Controller.xml"/>
-    <class name="EmailDownloadPage_Registration" src="code/model/EmailDownloadPage_Registration.php" description="record of all the" xml="classes/EmailDownloadPage_Registration.xml"/>
-  </namespace>
-</index>
